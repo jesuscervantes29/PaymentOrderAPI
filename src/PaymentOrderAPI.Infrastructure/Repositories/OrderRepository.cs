@@ -6,6 +6,8 @@ namespace PaymentOrderAPI.Infrastructure.Repositories;
 
 public class OrderRepository : IOrderRepository
 {
+    private const string OrderNotFoundMessage = "Order {0} not found.";
+
     private readonly Dictionary<int, Order> _store = new();
     private readonly object _lock = new();
     private int _nextId = 1;
@@ -43,7 +45,7 @@ public class OrderRepository : IOrderRepository
         lock (_lock)
         {
             if (!_store.TryGetValue(orderId, out var order))
-                throw new KeyNotFoundException($"Order {orderId} not found.");
+                throw new KeyNotFoundException(string.Format(OrderNotFoundMessage, orderId));
 
             order.Status = status;
             return Task.FromResult(order);
