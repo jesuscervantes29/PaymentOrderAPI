@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using PaymentOrderAPI.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssemblyContaining<Program>());
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 // CORS temporal — AllowAllOrigins
 builder.Services.AddCors(o =>
