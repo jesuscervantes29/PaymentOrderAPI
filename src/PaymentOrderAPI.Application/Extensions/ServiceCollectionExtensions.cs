@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PaymentOrderAPI.Application.Orders;
 using PaymentOrderAPI.Application.Payments;
 using PaymentOrderAPI.Application.Payments.Strategies;
+using PaymentOrderAPI.Application.Products;
 
 namespace PaymentOrderAPI.Application.Extensions;
 
@@ -16,6 +17,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IProviderFeeStrategy, CazaPagosFeeStrategy>();
         services.AddScoped<PaymentProviderSelector>();
         services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IProductService, ProductService>();
 
         return services;
     }
