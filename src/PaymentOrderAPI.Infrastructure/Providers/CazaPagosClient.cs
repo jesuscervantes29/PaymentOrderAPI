@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using PaymentOrderAPI.Domain.Entities;
 using PaymentOrderAPI.Domain.Enums;
 using PaymentOrderAPI.Domain.Interfaces;
-
 using PaymentOrderAPI.Infrastructure.Providers.Constants;
 using PaymentOrderAPI.Infrastructure.Providers.Dtos;
 
@@ -11,6 +10,9 @@ namespace PaymentOrderAPI.Infrastructure.Providers;
 
 public class CazaPagosClient : IPaymentProviderClient
 {
+    private const string CancelRoute = "cancellation";
+    private const string PayRoute    = "payment";
+
     private readonly HttpClient _httpClient;
     private readonly ILogger<CazaPagosClient> _logger;
 
@@ -25,7 +27,7 @@ public class CazaPagosClient : IPaymentProviderClient
     public async Task<ProviderOrderResult> CreateOrderAsync(PaymentMode mode, IEnumerable<Product> products)
     {
         var request = new ProviderCreateRequest(
-            mode.ToString(),
+            MapPaymentMode(mode),
             products.Select(p => new ProviderProductDto(p.Name, p.UnitPrice)).ToList()
         );
 
@@ -47,7 +49,7 @@ public class CazaPagosClient : IPaymentProviderClient
     {
         _logger.LogInformation(LogMessages.CancellingOrder, nameof(CancelOrderAsync), externalOrderId);
 
-        var response = await _httpClient.PatchAsync(string.Format(ProviderRoutes.CancelOrder, externalOrderId), null);
+        var response = await _httpClient.PutAsync($"{CancelRoute}?id={externalOrderId}", null);
         response.EnsureSuccessStatusCode();
     }
 
@@ -55,7 +57,14 @@ public class CazaPagosClient : IPaymentProviderClient
     {
         _logger.LogInformation(LogMessages.PayingOrder, nameof(PayOrderAsync), externalOrderId);
 
-        var response = await _httpClient.PatchAsync(string.Format(ProviderRoutes.PayOrder, externalOrderId), null);
+        var response = await _httpClient.PutAsync($"{PayRoute}?id={externalOrderId}", null);
         response.EnsureSuccessStatusCode();
     }
+
+    private static string MapPaymentMode(PaymentMode mode) => mode switch
+    {
+        PaymentMode.TDC      => "CreditCard",
+        PaymentMode.Transfer => "Transfer",
+        _                    => throw new NotSupportedException($"CazaPagos does not support {mode}.")
+    };
 }
