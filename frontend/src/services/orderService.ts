@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { CreateOrderRequest, OrderResponse } from '../types/api';
-import type { Product } from '../types/product';
+import type { ProductCatalog } from '../types/product';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -15,8 +15,8 @@ api.interceptors.response.use(
 );
 
 export const orderService = {
-  getProducts: (): Promise<Product[]> =>
-    api.get<Product[]>('/api/products').then(r => r.data),
+  getProducts: (): Promise<ProductCatalog[]> =>
+    api.get<ProductCatalog[]>('/api/products').then(r => r.data),
 
   createOrder: (req: CreateOrderRequest): Promise<OrderResponse> =>
     api.post<OrderResponse>('/api/orders', req).then(r => r.data),

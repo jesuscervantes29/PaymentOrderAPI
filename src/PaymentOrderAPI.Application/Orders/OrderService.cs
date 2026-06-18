@@ -55,7 +55,7 @@ public class OrderService : IOrderService
             PaymentMode     = mode,
             Products        = products,
             Fees            = result.Fees.ToList(),
-            Amount          = result.Amount
+            Amount          = total
         };
 
         var saved = await _repository.CreateAsync(order);
