@@ -15,6 +15,7 @@ public static class ServiceCollectionExtensions
         services.Configure<ProviderSettings>(configuration.GetSection("Providers"));
 
         services.AddSingleton<IOrderRepository, OrderRepository>();
+        services.AddTransient<IProductRepository, ProductRepository>();
 
         services.AddHttpClient<PagaFacilClient>((sp, client) =>
         {
