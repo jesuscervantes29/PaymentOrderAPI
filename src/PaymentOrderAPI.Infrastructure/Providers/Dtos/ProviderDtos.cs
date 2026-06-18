@@ -13,13 +13,17 @@ internal record ProviderProductDto(
 );
 
 internal record ProviderCreateResponse(
-    [property: JsonPropertyName("orderId")] string OrderId,
-    [property: JsonPropertyName("amount")]  decimal Amount,
-    [property: JsonPropertyName("fees")]    List<ProviderFeeDto> Fees,
+    [property: JsonPropertyName("orderId")]  string OrderId,
+    [property: JsonPropertyName("amount")]   decimal Amount,
+    [property: JsonPropertyName("fees")]     List<ProviderFeeDto> Fees,
     [property: JsonPropertyName("products")] List<ProviderProductDto> Products
 );
 
 internal record ProviderFeeDto(
-    [property: JsonPropertyName("name")]   string Name,
+    [property: JsonPropertyName("name")]   string? Name,
+    [property: JsonPropertyName("title")]  string? Title,
     [property: JsonPropertyName("amount")] decimal Amount
-);
+)
+{
+    public string ResolvedName => Name ?? Title ?? string.Empty;
+}

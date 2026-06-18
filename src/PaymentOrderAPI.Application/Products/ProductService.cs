@@ -1,4 +1,4 @@
-using PaymentOrderAPI.Application.Orders.DTOs;
+using PaymentOrderAPI.Application.Products.DTOs;
 using PaymentOrderAPI.Domain.Interfaces;
 
 namespace PaymentOrderAPI.Application.Products;
@@ -12,9 +12,9 @@ public class ProductService : IProductService
         _repository = repository;
     }
 
-    public async Task<IEnumerable<ProductDto>> GetProductsAsync()
+    public async Task<IEnumerable<ProductCatalogDto>> GetProductsAsync()
     {
         var products = await _repository.GetAllAsync();
-        return products.Select(p => new ProductDto(p.Name, p.UnitPrice));
+        return products.Select(p => new ProductCatalogDto(p.Name, p.Details, p.IsAvailable, p.UnitPrice));
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PaymentOrderAPI.API.DTOs;
-using PaymentOrderAPI.Application.Orders.DTOs;
 using PaymentOrderAPI.Application.Products;
+using PaymentOrderAPI.Application.Products.DTOs;
 
 namespace PaymentOrderAPI.API.Controllers;
 
@@ -17,7 +17,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<ProductCatalogDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetProducts()
     {

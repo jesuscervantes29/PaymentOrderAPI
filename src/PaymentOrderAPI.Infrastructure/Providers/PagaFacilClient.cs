@@ -41,7 +41,7 @@ public class PagaFacilClient : IPaymentProviderClient
         return new ProviderOrderResult(
             result!.OrderId,
             result.Amount,
-            result.Fees.Select(f => new Fee { Name = f.Name, Amount = f.Amount })
+            result.Fees.Select(f => new Fee { Name = f.ResolvedName, Amount = f.Amount })
         );
     }
 

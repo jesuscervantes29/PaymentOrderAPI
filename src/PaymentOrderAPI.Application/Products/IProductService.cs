@@ -1,8 +1,8 @@
-using PaymentOrderAPI.Application.Orders.DTOs;
+using PaymentOrderAPI.Application.Products.DTOs;
 
 namespace PaymentOrderAPI.Application.Products;
 
 public interface IProductService
 {
-    Task<IEnumerable<ProductDto>> GetProductsAsync();
+    Task<IEnumerable<ProductCatalogDto>> GetProductsAsync();
 }

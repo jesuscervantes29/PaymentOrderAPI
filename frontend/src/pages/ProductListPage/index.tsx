@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { Product } from '../../types/product';
+import type { ProductCatalog } from '../../types/product';
 import { orderService } from '../../services/orderService';
 import { ProductTable } from '../../components/domain/ProductTable';
 import { Button } from '../../components/ui/Button';
@@ -8,7 +8,7 @@ import { LoadingSpinner } from '../../components/ui/LoadingSpinner';
 
 export function ProductListPage() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductCatalog[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,6 +21,7 @@ export function ProductListPage() {
   }, []);
 
   function toggleProduct(name: string) {
+    if (!name) return;
     setSelected(prev => {
       const next = new Set(prev);
       next.has(name) ? next.delete(name) : next.add(name);
@@ -29,19 +30,21 @@ export function ProductListPage() {
   }
 
   function handleContinue() {
-    const selectedProducts = products.filter(p => selected.has(p.name));
+    const selectedProducts = products
+      .filter(p => selected.has(p.name))
+      .map(p => ({ name: p.name, unitPrice: p.unitPrice }));
     navigate('/confirm', { state: { products: selectedProducts } });
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-3xl mx-auto px-4 py-10">
+      <div className="max-w-5xl mx-auto px-4 py-10">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Catálogo de productos</h1>
           <p className="text-gray-500 text-sm mt-1">Selecciona los productos para tu orden</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto">
           {loading && <LoadingSpinner />}
           {error && <p className="text-red-500 text-center py-8">{error}</p>}
           {!loading && !error && (
