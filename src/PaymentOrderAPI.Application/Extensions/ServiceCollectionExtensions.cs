@@ -15,6 +15,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IProviderFeeStrategy, PagaFacilFeeStrategy>();
         services.AddScoped<IProviderFeeStrategy, CazaPagosFeeStrategy>();
+        services.AddScoped<IProviderFeeStrategy, MonedaDuraFeeStrategy>();
         services.AddScoped<PaymentProviderSelector>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IProductService, ProductService>();
