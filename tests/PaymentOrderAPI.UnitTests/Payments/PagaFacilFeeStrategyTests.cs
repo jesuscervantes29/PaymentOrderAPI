@@ -8,12 +8,12 @@ public class PagaFacilFeeStrategyTests
     private readonly PagaFacilFeeStrategy _sut = new();
 
     [Theory]
-    [InlineData(PaymentMode.Cash,     true)]
-    [InlineData(PaymentMode.TDC,      true)]
-    [InlineData(PaymentMode.Transfer, false)]
-    public void Supports_ReturnsExpected(PaymentMode mode, bool expected)
+    [InlineData(PaymentMode.Cash, 500,     true)]
+    [InlineData(PaymentMode.TDC,0,      true)]
+    [InlineData(PaymentMode.Transfer,0, false)]
+    public void Supports_ReturnsExpected(PaymentMode mode, decimal amount , bool expected)
     {
-        Assert.Equal(expected, _sut.Supports(mode));
+        Assert.Equal(expected, _sut.Supports(mode, amount));
     }
 
     [Fact]
