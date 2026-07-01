@@ -8,7 +8,7 @@ public class PagaFacilFeeStrategy : IProviderFeeStrategy
 
     public string ProviderName => "PagaFacil";
 
-    public bool Supports(PaymentMode mode) =>
+    public bool Supports(PaymentMode mode, decimal? amount) =>
         mode == PaymentMode.Cash || mode == PaymentMode.TDC;
 
     public decimal CalculateFee(PaymentMode mode, decimal totalAmount) => mode switch

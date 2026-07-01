@@ -8,12 +8,12 @@ public class CazaPagosFeeStrategyTests
     private readonly CazaPagosFeeStrategy _sut = new();
 
     [Theory]
-    [InlineData(PaymentMode.TDC,      true)]
-    [InlineData(PaymentMode.Transfer, true)]
-    [InlineData(PaymentMode.Cash,     false)]
-    public void Supports_ReturnsExpected(PaymentMode mode, bool expected)
+    [InlineData(PaymentMode.TDC, 0,      true)]
+    [InlineData(PaymentMode.Transfer, 0, true)]
+    [InlineData(PaymentMode.Cash, 0,     false)]
+    public void Supports_ReturnsExpected(PaymentMode mode, decimal amount, bool expected)
     {
-        Assert.Equal(expected, _sut.Supports(mode));
+        Assert.Equal(expected, _sut.Supports(mode, amount));
     }
 
     [Theory]
