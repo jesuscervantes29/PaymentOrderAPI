@@ -8,7 +8,7 @@ public class CazaPagosFeeStrategy : IProviderFeeStrategy
 
     public string ProviderName => "CazaPagos";
 
-    public bool Supports(PaymentMode mode) =>
+    public bool Supports(PaymentMode mode, decimal? amount) =>
         mode == PaymentMode.TDC || mode == PaymentMode.Transfer;
 
     public decimal CalculateFee(PaymentMode mode, decimal totalAmount) => mode switch

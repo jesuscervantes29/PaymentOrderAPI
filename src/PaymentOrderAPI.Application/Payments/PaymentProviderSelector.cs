@@ -23,7 +23,7 @@ public class PaymentProviderSelector
     public IProviderFeeStrategy SelectOptimal(PaymentMode mode, decimal totalAmount)
     {
         var candidates = _strategies
-            .Where(s => s.Supports(mode))
+            .Where(s => s.Supports(mode, totalAmount))
             .Select(s => new { Strategy = s, Fee = s.CalculateFee(mode, totalAmount) })
             .OrderBy(x => x.Fee)
             .ToList();
